@@ -1,6 +1,8 @@
 {
     "www.vg.no": [
-        "/nyheter/innenriks/",
-        "http://skattelister.no/"
+        "vglive.no",
+        "www.vg.no",
+        "vg.no",
+        "skattelister.no"
     ]
 }

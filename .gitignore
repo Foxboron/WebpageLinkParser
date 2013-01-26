@@ -1,2 +1,5 @@
 *.pyc
 source
+database.db
+output.json
+test.py

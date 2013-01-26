@@ -1,1 +1,6 @@
-{"www.vg.no": {"http://skattelister.no/": 1}}
+{
+    "www.vg.no": {
+        "": 8, 
+        "http://skattelister.no/": 1
+    }
+}
