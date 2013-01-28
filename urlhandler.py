@@ -17,13 +17,13 @@ class UrlHandler(object):
         if link in self.db.fetch():
             return False
         a = urlparse(link)
-        print a.netloc
         if a.netloc in self.json[self.url.netloc]:
             if "http" in link:
                 if a.path == "" or a.path == "/":
                     self.link = a.geturl()
                 else:
-                    self.link = a.path.rsplit("/", 1)[0]
+                    self.link = a.path.rsplit(".", 1)[0]
+                    if self.link[-1] == "/": self.link = self.link[:-1]
                 return True
 
     def url_write(self, link):
@@ -42,6 +42,7 @@ class UrlHandler(object):
                 self.output[self.url.netloc][self.link] += 1
             self.db.insert(link)
             self.output_stuff()
+            return True
         else:
             return False
 

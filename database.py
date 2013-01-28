@@ -1,26 +1,29 @@
 #!/usr/bin/env python2
 import sqlite3
+from pymongo import MongoClient
+import time
+import os
 
 
 class DatabaseLayer(object):
     """Trol"""
     def __init__(self):
-        self.sql_statment = ""
-        self.dbfile = "database.db"
-        self.conn = sqlite3.connect(self.dbfile, check_same_thread=False)
-        self.c = self.conn.cursor()
-        self.c.execute("""CREATE TABLE IF NOT EXISTS viewcount
-                        (site TEXT )
-                        """)
-        self.conn.commit()
+        self.file = "link"
 
     def insert(self, what):
-        self.c.execute("""INSERT or replace into viewcount (site) VALUES(?)""", [what,])
-        self.conn.commit()
+        f = open(self.file, "wb+")
+        f.write("\n"+what)
+        f.close()
+        
 
     def fetch(self):
-        self.c.execute("SELECT * FROM viewcount")
-        result = [element[0] for element in self.c.fetchall()]
-        return result
+        try:
+            f = open(self.file, "rb+")
+            s = f.read()
+            f.close()
+            s = s.split("\n")
+        except IOError:
+            s = []
+        return s
 
 databaselayer = DatabaseLayer()
