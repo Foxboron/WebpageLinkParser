@@ -44,9 +44,10 @@ class UrlHandler(object):
             self.output_stuff()
             return True
         else:
+            #print "skipped url: %s" % link
             return False
 
     def output_stuff(self):
         l = open("output.json", "wb")
-        l.write(json.dumps(self.output, indent=4))
+        l.write(json.dumps(self.output, indent=4, sort_keys=True))
 

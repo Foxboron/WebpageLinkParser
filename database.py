@@ -11,7 +11,7 @@ class DatabaseLayer(object):
         self.file = "link"
 
     def insert(self, what):
-        f = open(self.file, "wb+")
+        f = open(self.file, "ab+")
         f.write("\n"+what)
         f.close()
         
