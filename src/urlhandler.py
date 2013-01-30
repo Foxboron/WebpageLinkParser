@@ -1,0 +1,68 @@
+#!/usr/bin/env python2
+
+import json
+from database import DatabaseLayer
+from urlparse import urlparse
+
+
+class UrlHandler(object):
+    """Main handler for the parser. Checks the given URL and 
+    decides if it should be written too the JSON file or passed."""
+    def __init__(self, url):
+        self.url = urlparse(url)
+        self.raw_url = url
+        self.db = DatabaseLayer()
+        self.json = json.loads(open("settings.json", "rb").read())
+
+
+    def valid_link(self, link):
+        """Checks if the given URL is already read.
+            Input:
+                    link:str = URL
+            Return:
+                    bool True or False"""
+        if link in self.db.fetch():
+            return False
+        a = urlparse(link)
+        if a.netloc in self.json[self.url.netloc]:
+            if "http" in link:
+                if a.path == "" or a.path == "/":
+                    self.link = a.geturl()
+                else:
+                    self.link = a.path.rsplit(".", 1)[0]
+                    if self.link[-1] == "/": self.link = self.link[:-1]
+                return True
+
+    def url_write(self, link):
+        """Checks the URL if valid or not.
+            Then writes too file and 'database'
+            depending on the result.
+            Input:
+                    link:str = URL
+            Return:
+                    bool True or False depending on result"""
+        if self.valid_link(link):
+            try:
+                with open("output.json", "rb") as f:
+                    self.output = json.loads(f.read())
+            except:
+                self.output = {}
+            try:
+                self.output[self.url.netloc][self.link] += 1
+            except Exception, e:
+                if self.output == {}:
+                    self.output[self.url.netloc] = {}
+                self.output[self.url.netloc][self.link] = 0
+                self.output[self.url.netloc][self.link] += 1
+            self.db.insert(link)
+            self._output_stuff()
+            return True
+        else:
+            #print "skipped url: %s" % link
+            return False
+
+    def _output_stuff(self):
+        """Writes dict too output json file."""
+        l = open("output.json", "wb")
+        l.write(json.dumps(self.output, indent=4, sort_keys=True))
+

@@ -1,9 +1,4 @@
 *.pyc
-source
-database.db
-output.json
-test.py
+tmp
+output
 www.vg.no
-link
-mongo..py
-openedfiles
