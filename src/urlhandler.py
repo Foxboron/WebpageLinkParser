@@ -3,7 +3,7 @@
 import json
 from database import DatabaseLayer
 from urlparse import urlparse
-
+import os
 
 class UrlHandler(object):
     """Main handler for the parser. Checks the given URL and 
@@ -43,7 +43,7 @@ class UrlHandler(object):
                     bool True or False depending on result"""
         if self.valid_link(link):
             try:
-                with open("output.json", "rb") as f:
+                with open(os.getcwd()+"/output/outputjson", "rb") as f:
                     self.output = json.loads(f.read())
             except:
                 self.output = {}
@@ -63,6 +63,8 @@ class UrlHandler(object):
 
     def _output_stuff(self):
         """Writes dict too output json file."""
-        l = open("output.json", "wb")
-        l.write(json.dumps(self.output, indent=4, sort_keys=True))
+        with open(os.getcwd()+"/output/outputjson", "wb") as l:
+            con = json.dumps(self.output, indent=4, sort_keys=True)
+            l.write(con)
+
 

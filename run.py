@@ -1,6 +1,7 @@
 #!/usr/bin/env python2
-from src.bs4 import BeautifulSoup
-from src.urlparse import urlparse
+
+from bs4 import BeautifulSoup
+from urlparse import urlparse
 from src.urlhandler import UrlHandler
 import urllib
 import json
@@ -12,7 +13,7 @@ def get_menu_items():
     """Fetches menu items from settings.json
         Returns: 
                 Dict with {num, item}"""
-    url = _get_settings()
+    urls = _get_settings()
     keys = xrange(1,len(urls)+1)
     d = {str(k): v for k,v in zip(keys,urls)}
     return d
@@ -46,8 +47,8 @@ def parse_url(url, selected_item):
         Input:
                 url:str = url we need to parse"""
     if "http://" not in selected_item:
-        fin_url = "http://"+fin_url
-    a = UrlHandler(fin_url)
+        selected_item = "http://"+selected_item
+    a = UrlHandler(selected_item)
     a.url_write(url)
 
 
@@ -66,12 +67,12 @@ def dir_walk(dir_s):
             else:
                 for site in a:
                     timer = time.time()
-                    opened_files = open("output/openedfiles", "rb+")
+                    opened_files = open(os.getcwd()+"/tmp/openedfiles", "rb+")
                     content_file = opened_files.read()
                     opened_files.close()
                     content_file = content_file.split("\n")
                     if site not in content_file: 
-                        opened_files = open("output/openedfiles", "ab+")
+                        opened_files = open(os.getcwd()+"/tmp/openedfiles", "ab+")
                         opened_files.write("\n"+site)
                         opened_files.close()
                         with open(site, 'rb') as f:
@@ -79,11 +80,20 @@ def dir_walk(dir_s):
                             soup = BeautifulSoup(content)
                             for link in soup.find_all('a'):
                                 a = link.get('href')
+                                if a == None: continue
                                 if a or "http" in a:
                                     yield a
+
+def init():
+    try: os.mkdir("tmp")
+    except: pass
+    open(os.getcwd()+"/tmp/link", 'ab+').close()
+    open(os.getcwd()+"/tmp/openedfiles", 'ab+').close()
+    open("outputjson", "ab").close()
     
 def main():
     """Main Menu."""
+    init()
     items = get_menu_items()
     print "Menu Items:"
     for k,v in items.items():
