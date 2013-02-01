@@ -1,9 +1,11 @@
 {
     "www.vg.no": [
-        "vglive.no",
         "www.vg.no",
         "vg.no",
         "vektklubb.no",
         "www.vektklubb.no"
-    ]
+    ],
+    "www.nettavisen.no": [
+    "www.nettavisen.no",
+    "nettaivsen.no"]
 }

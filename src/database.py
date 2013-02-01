@@ -16,9 +16,7 @@ class DatabaseLayer(object):
 
     def insert(self, what):
         f = open(self.file, "ab+")
-        f.write("\n"+what)
-        print "new"
-        self.content = self.fetch()
+        f.write("\n"+what.encode('utf-8'))
         f.close()
 
     def fetch(self):

@@ -33,8 +33,8 @@ def get_url(content):
                 content:str = URL
         Returns:
                 yields url:str"""
-    f = urllib.urlopen(url).read()
-    soup = BeautifulSoup(content)
+    f = urllib.urlopen(content).read()
+    soup = BeautifulSoup(f)
     for link in soup.find_all('a'):
         a = link.get('href')
         if not a or "http" not in a:
@@ -89,7 +89,7 @@ def init():
     except: pass
     open(os.getcwd()+"/tmp/link", 'ab+').close()
     open(os.getcwd()+"/tmp/openedfiles", 'ab+').close()
-    open("outputjson", "ab").close()
+    open(os.getcwd()+"/output/output.json", "ab").close()
     
 def main():
     """Main Menu."""
@@ -101,13 +101,13 @@ def main():
     while True:
         select = raw_input(">>> ")
         if select in items.keys():
+            sel = ""
+            dir_sel = items[select]
             if items[select] in os.listdir("."):
-                dir_sel = items[select]
                 print "Do you wanna search the dir for html/htm files?"
-                sel = ""
                 while sel == "":
                     sel = "y" if raw_input("Y/n >>> ").lower() == "" else "n"
-            if sel == "n":
+            if sel == "n" or sel == "":
                 for i in get_url("http://"+items[select]):
                     parse_url(i, dir_sel)
             elif sel == "y":

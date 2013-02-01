@@ -50,7 +50,7 @@ class UrlHandler(object):
             try:
                 self.output[self.url.netloc][self.link] += 1
             except Exception, e:
-                if self.output == {}:
+                if self.output == {} or self.url.netloc not in self.output.keys():
                     self.output[self.url.netloc] = {}
                 self.output[self.url.netloc][self.link] = 0
                 self.output[self.url.netloc][self.link] += 1
