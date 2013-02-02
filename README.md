@@ -11,23 +11,23 @@ The `settings.json` file is where you decide upon the websites to parse, and wha
 * `[main domain]` is the site you are suppose to parse. 
 * `[domain]` && `[another domain]` is the websites we are whitelisting to have tags from.
 More websites can be added too the json and accepted. 
-<script>
+```json
 	{
 	    "www.[main domain].com": [
 	        "www.[domain].com",
 	        "www.[another domain].com"]
 	}
-</script>
+```
 When settings are set, run `run.py`. The script will be running through the directories too look for directories with the same name as the website in the settings. If there is, you will be asked if you want too search the dir after htm/html files too find tags. If not, it will go to the website and parse the tags.
 
 ## Output
 In the `output` folder we will have the results of the search. The output the tags and how many it found, sorted into json (another format will be added).
-<script>
+```json
 	{
 	    "www.[main domain].com": {
 	        "/news/war": 14,
 	        "/news/celebreties": 20
 	    }
 	}
-</script>
+```
 Inside the `tmp` folder we will have two files, one containing ALL parsed links (read whitelisted and parsed), and one which contains all files we have parsed before.
