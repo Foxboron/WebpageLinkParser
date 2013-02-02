@@ -89,6 +89,8 @@ def init():
     except: pass
     open(os.getcwd()+"/tmp/link", 'ab+').close()
     open(os.getcwd()+"/tmp/openedfiles", 'ab+').close()
+    try: os.mkdir("output")
+    except: pass
     open(os.getcwd()+"/output/output.json", "ab").close()
     
 def main():
