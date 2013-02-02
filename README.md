@@ -12,7 +12,7 @@ The `settings.json` file is where you decide upon the websites to parse, and wha
 * `[domain]` && `[another domain]` is the websites we are whitelisting to have tags from.
 More websites can be added too the json and accepted.
 
-```json
+```
 	{
 	    "www.[main domain].com": [
 	        "www.[domain].com",
@@ -25,7 +25,7 @@ When settings are set, run `run.py`. The script will be running through the dire
 ## Output
 In the `output` folder we will have the results of the search. The output the tags and how many it found, sorted into json (another format will be added).
 
-```json
+```
 	{
 	    "www.[main domain].com": {
 	        "/news/war": 14,
