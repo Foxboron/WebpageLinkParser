@@ -16,16 +16,18 @@ def main():
         if select == "":
             pass
         elif select in items.keys():
+            a = time.time()
             main_parse(select)
+            print "Time spent: %s" % str(time.time() - a)
         elif select in menu_items.keys():
+            a = time.time()
             menu_items[select]()
+            print "Time spent: %s" % str(time.time() - a)
         else:
-            print "Not a menu item!" 
+            print "Not a menu item!"
 
 if __name__ == '__main__':
-    a = time.time()
     try:
         main()
     except (EOFError,KeyboardInterrupt):
         exit(0)
-    print time.time() - a
