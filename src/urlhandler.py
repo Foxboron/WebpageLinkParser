@@ -21,16 +21,20 @@ class UrlHandler(object):
                     link:str = URL
             Return:
                     bool True or False"""
-        if link in self.db.fetch():
+        if link.encode('utf-8') in self.db.fetch():
             return False
         a = urlparse(link)
         if a.netloc in self.json[self.url.netloc]:
             if "http" in link:
+
                 if a.path == "" or a.path == "/":
                     self.link = a.geturl()
+                    print self.link
                 else:
                     self.link = a.path.rsplit(".", 1)[0]
                     if self.link[-1] == "/": self.link = self.link[:-1]
+                    if "article" in self.link: self.link = a.path.rsplit("/", 1)[0]
+                    print self.link
                 return True
 
     def url_write(self, link):
@@ -44,7 +48,7 @@ class UrlHandler(object):
         if self.valid_link(link):
             try:
                 with open(os.getcwd()+"/output/outputjson", "rb") as f:
-                    self.output = json.loads(f.read())
+                    self.output = json.loads(f.read(),encoding="utf-8")
             except:
                 self.output = {}
             try:
@@ -64,7 +68,7 @@ class UrlHandler(object):
     def _output_stuff(self):
         """Writes dict too output json file."""
         with open(os.getcwd()+"/output/outputjson", "wb") as l:
-            con = json.dumps(self.output, indent=4, sort_keys=True)
+            con = json.dumps(self.output, indent=4, sort_keys=True, encoding="ASCII")
             l.write(con)
 
 
