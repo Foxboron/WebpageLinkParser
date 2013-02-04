@@ -9,22 +9,21 @@ def main():
     "exit": exit,
     "help": help,
     "save": save,
-    "clear": clear} 
+    "clear": clear,
+    "menu": menu} 
     init("")
     items = get_menu_items()
     menu("")
     while True:
-        select = raw_input(">>> ").lower()
-        if select == "":
+        select = raw_input(">>> ").lower().split()
+        if len(select) == 0:
             pass
-        elif select in items.keys():
+        elif select[0] in items.keys():
             a = time.time()
-            main_parse(select)
+            main_parse(select[0])
             print "Time spent: %s" % str(time.time() - a)
-        elif select in menu_items.keys():
-            a = time.time()
-            menu_items[select](select)
-            print "Time spent: %s" % str(time.time() - a)
+        elif select[0] in menu_items.keys():
+            menu_items[select[0]](select)
         else:
             print "Not a menu item!"
 

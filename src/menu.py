@@ -41,10 +41,19 @@ def main_parse(select):
 def help(arg):
     print """
 Menu Items:
-    save
+To parse a selected webpage, type the number before the webpage listed.
+    menu
+        Shows the menu of webpages you can parse according to settings.json
+    save [name]
+        Saves output.json too the directory 'saved'.
+        If no names is specefied, the time is used instead.
     help
+        Shows this message
     exit
-    clear   
+        Exits the program.
+    clear [name]
+        Clears the tmp directory and saves the file with 
+        or without a specefied name.   
 """
 
 
@@ -56,7 +65,10 @@ def menu(arg):
 
 
 def clear(arg):
-    name = strftime("%Y-%m-%d_%H.%M.%S", gmtime())+".json"
+    if len(arg) == 2:
+        name = arg[1]+".json"
+    else:
+        name = strftime("%Y-%m-%d_%H.%M.%S", gmtime())+".json"
     try: os.mkdir("saved")
     except: pass
     if "output.json" in os.listdir("output"):
@@ -73,13 +85,15 @@ def clear(arg):
 
 from time import gmtime, strftime
 def save(arg):
-    name = strftime("%Y-%m-%d_%H.%M.%S", gmtime())+".json"
+    if len(arg) == 2:
+        name = arg[1]+".json"
+    else:
+        name = strftime("%Y-%m-%d_%H.%M.%S", gmtime())+".json"
     try: os.mkdir("saved")
     except: pass
     if "output.json" in os.listdir("output"): 
         print "Saved output.json too %s" % name
         os.rename("output/output.json", "saved/"+name)
-    init()
 
 
 def init(arg):
