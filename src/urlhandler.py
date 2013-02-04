@@ -47,7 +47,7 @@ class UrlHandler(object):
                     bool True or False depending on result"""
         if self.valid_link(link):
             try:
-                with open(os.getcwd()+"/output/outputjson", "rb") as f:
+                with open(os.getcwd()+"/output/output.json", "rb") as f:
                     self.output = json.loads(f.read(),encoding="utf-8")
             except:
                 self.output = {}
@@ -67,7 +67,7 @@ class UrlHandler(object):
 
     def _output_stuff(self):
         """Writes dict too output json file."""
-        with open(os.getcwd()+"/output/outputjson", "wb") as l:
+        with open(os.getcwd()+"/output/output.json", "wb") as l:
             con = json.dumps(self.output, indent=4, sort_keys=True, encoding="ASCII")
             l.write(con)
 

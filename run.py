@@ -7,7 +7,9 @@ def main():
     """Main Menu."""
     menu_items = {
     "exit": exit,
-    "help": help} 
+    "help": help,
+    "save": save,
+    "clear": clear} 
     init()
     items = get_menu_items()
     menu()
@@ -18,7 +20,7 @@ def main():
         elif select in items.keys():
             a = time.time()
             main_parse(select)
-            print "Time spent: %s" % str(time.time() - a)
+            print "Tinme spent: %s" % str(time.time() - a)
         elif select in menu_items.keys():
             a = time.time()
             menu_items[select]()

@@ -39,7 +39,13 @@ def main_parse(select):
             parse_url(i, dir_sel)
 
 def help():
-    print "Help message"
+    print """
+Menu Items:
+    clean
+    help
+    exit
+    clearall
+"""
 
 
 def menu():
@@ -47,6 +53,30 @@ def menu():
     print "Menu Items:"
     for k,v in items.items():
         print "    %s) %s" % (k,v)
+
+
+def clear():
+    try: os.mkdir("saved")
+    except: pass
+    if "output.json" in os.listdir("output"): 
+        os.rename("output/output.json", "saved/"+strftime("%Y-%m-%d_%H.%M.%S", gmtime())+".json")
+    try: os.mkdir("tmp")
+    except: pass
+    open(os.getcwd()+"/tmp/link", 'wb+').close()
+    open(os.getcwd()+"/tmp/openedfiles", 'wb+').close()
+    try: os.mkdir("output")
+    except: pass
+    open(os.getcwd()+"/output/output.json", "wb").close()
+
+
+from time import gmtime, strftime
+def save():
+    try: os.mkdir("saved")
+    except: pass
+    if "output.json" in os.listdir("output"): 
+        os.rename("output/output.json", "saved/"+strftime("%Y-%m-%d_%H.%M.%S", gmtime())+".json")
+    init()
+
 
 def init():
     try: os.mkdir("tmp")
