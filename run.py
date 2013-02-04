@@ -20,7 +20,7 @@ def main():
         elif select in items.keys():
             a = time.time()
             main_parse(select)
-            print "Tinme spent: %s" % str(time.time() - a)
+            print "Time spent: %s" % str(time.time() - a)
         elif select in menu_items.keys():
             a = time.time()
             menu_items[select]()
