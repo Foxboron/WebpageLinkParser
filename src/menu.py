@@ -38,28 +38,30 @@ def main_parse(select):
         for i in dir_walk(items[select]):
             parse_url(i, dir_sel)
 
-def help():
+def help(arg):
     print """
 Menu Items:
-    clean
+    save
     help
     exit
-    clearall
+    clear   
 """
 
 
-def menu():
+def menu(arg):
     items = get_menu_items()
     print "Menu Items:"
     for k,v in items.items():
         print "    %s) %s" % (k,v)
 
 
-def clear():
+def clear(arg):
+    name = strftime("%Y-%m-%d_%H.%M.%S", gmtime())+".json"
     try: os.mkdir("saved")
     except: pass
-    if "output.json" in os.listdir("output"): 
-        os.rename("output/output.json", "saved/"+strftime("%Y-%m-%d_%H.%M.%S", gmtime())+".json")
+    if "output.json" in os.listdir("output"):
+        print "Saved output.json too %s" % name
+        os.rename("output/output.json", "saved/"+name)
     try: os.mkdir("tmp")
     except: pass
     open(os.getcwd()+"/tmp/link", 'wb+').close()
@@ -70,15 +72,17 @@ def clear():
 
 
 from time import gmtime, strftime
-def save():
+def save(arg):
+    name = strftime("%Y-%m-%d_%H.%M.%S", gmtime())+".json"
     try: os.mkdir("saved")
     except: pass
     if "output.json" in os.listdir("output"): 
-        os.rename("output/output.json", "saved/"+strftime("%Y-%m-%d_%H.%M.%S", gmtime())+".json")
+        print "Saved output.json too %s" % name
+        os.rename("output/output.json", "saved/"+name)
     init()
 
 
-def init():
+def init(arg):
     try: os.mkdir("tmp")
     except: pass
     open(os.getcwd()+"/tmp/link", 'ab+').close()
