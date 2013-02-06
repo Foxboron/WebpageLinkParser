@@ -26,13 +26,16 @@ class UrlHandler(object):
         a = urlparse(link)
         if a.netloc in self.json[self.url.netloc]:
             if "http" in link:
-
                 if a.path == "" or a.path == "/":
                     self.link = a.geturl()
                 else:
                     self.link = a.path.rsplit(".", 1)[0]
                     if self.link[-1] == "/": self.link = self.link[:-1]
-                    if "article" in self.link: self.link = a.path.rsplit("/", 1)[0]
+                    if "article" in self.link: 
+                        if not a.path.rsplit("/", 1)[0] == "":
+                            self.link = a.path.rsplit("/", 1)[0]
+                    print link
+                    print self.link
                 return True
 
     def url_write(self, link):
@@ -60,7 +63,7 @@ class UrlHandler(object):
             self._output_stuff()
             return True
         else:
-            print "Skipped url: %s" % link
+            #print "Skipped url: %s" % link
             return False
 
     def _output_stuff(self):
