@@ -1,6 +1,7 @@
 import os
 import json
 from src.parse import *
+from src.session import *
 
 
 def get_menu_items():
@@ -45,19 +46,25 @@ To parse a selected webpage, type the number before the webpage listed.
     menu
         Shows the menu of webpages you can parse according to settings.json
     save [name]
-        Saves output.json too the directory 'saved'.
+        Saves output.json too the directory 'saved' 
+            and parses the info into a readable format.
         If no names is specefied, the time is used instead.
     help
         Shows this message
     exit
         Exits the program.
+    session
+        Use session help too see a new list of commands!
+    edit
+        Use session help too see a new list of commands!
     clear [name]
         Clears the tmp directory and saves the file with 
-        or without a specefied name.   
+        or without a specefied name and in a readable format.   
 """
 
 
 def menu(arg):
+    """Print the menu!"""
     items = get_menu_items()
     print "Menu Items:"
     for k,v in items.items():
@@ -65,42 +72,103 @@ def menu(arg):
 
 
 def clear(arg):
-    if len(arg) == 2:
-        name = arg[1]+".json"
-    else:
-        name = strftime("%Y-%m-%d_%H.%M.%S", gmtime())+".json"
-    try: os.mkdir("saved")
-    except: pass
-    if "output.json" in os.listdir("output"):
-        print "Saved output.json too %s" % name
-        os.rename("output/output.json", "saved/"+name)
+    """
+    Clears the tmp files and saved the output file.
+        Input:
+            arg:str = Name of the file
+    """
+    save(arg)
     try: os.mkdir("tmp")
     except: pass
     open(os.getcwd()+"/tmp/link", 'wb+').close()
     open(os.getcwd()+"/tmp/openedfiles", 'wb+').close()
-    try: os.mkdir("output")
-    except: pass
-    open(os.getcwd()+"/output/output.json", "wb").close()
+    open(os.getcwd()+"/tmp/output.json", "wb").close()
 
 
 from time import gmtime, strftime
 def save(arg):
+    """
+    Saves the output file
+        Input:
+            arg:str = Name of the file
+    """
     if len(arg) == 2:
-        name = arg[1]+".json"
+        name = arg[1]+".txt"
     else:
-        name = strftime("%Y-%m-%d_%H.%M.%S", gmtime())+".json"
+        name = strftime("%Y-%m-%d_%H.%M.%S", gmtime())+".txt"
     try: os.mkdir("saved")
     except: pass
-    if "output.json" in os.listdir("output"): 
+    old = open("tmp/output.json", 'rb')
+    try:
+        con = parse(json.loads(old.read()))
+        with open("saved/"+name, 'wb') as f:
+            f.write(con.encode("utf-8"))
         print "Saved output.json too %s" % name
-        os.rename("output/output.json", "saved/"+name)
+    except ValueError, e:
+        print e
+        print "Nothing to be saved!"
+    old.close()
 
+def parse(con):
+    new = ""
+    for k,v in con.iteritems():
+        new += "\n%s\n%s\n%s\n\n" % ("#"*len(k),k,"#"*len(k))
+        for j,m in v.iteritems():
+            new += "%s: %s\n" % (j,m)
+    return new
+
+def session(arg):
+    s = Session()
+    print arg
+    if "list" in arg:
+        n = s.list_session()
+        if n:
+            for i in s.list_session():
+                date = i[1].split("_")
+                print "Session %s Stored: %s %s" % (i[0], date[0], date[1])
+        else:
+            print "Nothing saved yet"
+    elif "save" in arg[1]:
+        if len(arg) == 3:
+            s.save_session("output.json", "link", "openedfiles", id=arg[2])
+        else:    
+            s.save_session("output.json", "link", "openedfiles")
+        init("")
+    if "restore" in arg[1] and len(arg) == 3:
+        print "Trying to restore session %s..." % arg[2]
+        s.restore_session(arg[2])
+    elif "restore" in arg[1] and len(arg) == 2:
+        print "Need a number!"
+    if "help" in arg:
+        session_help()
+
+def session_help():
+    print """Sessions Menu Items:
+Caches sessions on searches and makes you able to switch between them!
+Example:
+    session restore 1
+
+save [num]
+    Saves the current session
+
+list
+    Lists the current sessions saved.
+
+restore [num]
+    Restores the session of the given number!  
+
+help
+    Displays this message.  
+    """
+
+def edit(arg):
+    print "Not implemented yet"
 
 def init(arg):
     try: os.mkdir("tmp")
     except: pass
     open(os.getcwd()+"/tmp/link", 'ab+').close()
     open(os.getcwd()+"/tmp/openedfiles", 'ab+').close()
-    try: os.mkdir("output")
+    open(os.getcwd()+"/tmp/output.json", "ab").close()
+    try: os.mkdir("session")
     except: pass
-    open(os.getcwd()+"/output/output.json", "ab").close()

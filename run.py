@@ -10,7 +10,9 @@ def main():
     "help": help,
     "save": save,
     "clear": clear,
-    "menu": menu} 
+    "menu": menu,
+    "edit": edit,
+    "session": session} 
     init("")
     items = get_menu_items()
     menu("")
