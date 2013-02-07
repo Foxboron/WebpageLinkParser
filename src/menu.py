@@ -30,12 +30,11 @@ def main_parse(select):
     dir_sel = items[select]
     if items[select] in os.listdir("."):
         print "Do you wanna search the dir for html/htm files?"
-        while sel == "":
-            sel = "y" if raw_input("Y/n >>> ").lower() == "" else "n"
-    if sel == "n" or sel == "":
+        sel = raw_input("Y/n >>> ").lower()
+    if sel == "n":
         for i in get_url("http://"+items[select]):
             parse_url(i, dir_sel)
-    elif sel == "y":
+    elif sel == "y" or sel == "":
         for i in dir_walk(items[select]):
             parse_url(i, dir_sel)
 
