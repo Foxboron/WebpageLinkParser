@@ -142,6 +142,7 @@ def session(arg):
     if "help" in arg:
         session_help()
 
+
 def session_help():
     print """Sessions Menu Items:
 Caches sessions on searches and makes you able to switch between them!
