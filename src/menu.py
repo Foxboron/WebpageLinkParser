@@ -130,7 +130,6 @@ def session(arg):
         yeilds the right menu option.
     """
     s = Session()
-    print arg
     if "list" in arg:
         n = s.list_session()
         if n:

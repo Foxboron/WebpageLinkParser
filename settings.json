@@ -1,10 +1,14 @@
 {
-    "www.vg.no": [
-        "www.vg.no",
-        "vg.no",
-        "vektklubb.no",
-        "www.vektklubb.no"
-    ],
+    "www.vg.no": { 
+        "links": [
+            "www.vg.no",
+            "vg.no",
+            "vektklubb.no",
+            "www.vektklubb.no"],
+        "tags": [
+            "/sport/ski/hopp",
+            "/sport"]
+        },
 "www.nettavisen.no": [
         "www.nettavisen.no",
         "nettaivsen.no",

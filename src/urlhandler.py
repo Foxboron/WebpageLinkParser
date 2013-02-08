@@ -21,11 +21,10 @@ class UrlHandler(object):
                     link:str = URL
             Return:
                     bool True or False"""
-        print link
         if link.encode('utf-8') in self.db.fetch():
             return False
         a = urlparse(link)
-        if a.netloc in self.json[self.url.netloc]:
+        if a.netloc in self.json[self.url.netloc]["links"]:
             if "http" in link:
                 if a.path == "" or a.path == "/":
                     self.link = a.geturl()
@@ -35,6 +34,8 @@ class UrlHandler(object):
                     if "article" in self.link: 
                         if not a.path.rsplit("/", 1)[0] == "":
                             self.link = a.path.rsplit("/", 1)[0]
+                    if self.link in self.json[self.url.netloc]["tags"]:
+                        return False
                 return True
 
     def url_write(self, link):
