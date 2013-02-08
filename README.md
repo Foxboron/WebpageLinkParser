@@ -7,18 +7,23 @@ Current settings:
 ```
 	Menu Items:
 	To parse a selected webpage, type the number before the webpage listed.
-    menu
-        Shows the menu of webpages you can parse according to settings.json
-    save [name]
-        Saves output.json too the directory 'saved'.
-        If no names is specefied, the time is used instead.
-    help
-        Shows this message
-    exit
-        Exits the program.
-    clear [name]
-        Clears the tmp directory and saves the file with 
-        or without a specefied name.   
+	    menu
+	        Shows the menu of webpages you can parse according to settings.json
+	    save [name]
+	        Saves output.json too the directory 'saved' 
+	            and parses the info into a readable format.
+	        If no names is specefied, the time is used instead.
+	    help
+	        Shows this message
+	    exit
+	        Exits the program.
+	    session
+	        Use session help too see a new list of commands!
+	    edit
+	        Use session help too see a new list of commands!
+	    clear [name]
+	        Clears the tmp directory and saves the file with 
+	        or without a specefied name and in a readable format.   
 ```
 
 ## Usage

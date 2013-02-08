@@ -21,6 +21,7 @@ class UrlHandler(object):
                     link:str = URL
             Return:
                     bool True or False"""
+        print link
         if link.encode('utf-8') in self.db.fetch():
             return False
         a = urlparse(link)

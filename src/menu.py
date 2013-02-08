@@ -31,11 +31,11 @@ def main_parse(select):
     if items[select] in os.listdir("."):
         print "Do you wanna search the dir for html/htm files?"
         sel = raw_input("Y/n >>> ").lower()
-    if sel == "n":
-        for i in get_url("http://"+items[select]):
-            parse_url(i, dir_sel)
-    elif sel == "y" or sel == "":
+    if sel == "y":
         for i in dir_walk(items[select]):
+            parse_url(i, dir_sel)
+    elif sel == "":
+        for i in get_url("http://"+items[select]):
             parse_url(i, dir_sel)
 
 def help(arg):
@@ -109,6 +109,11 @@ def save(arg):
     old.close()
 
 def parse(con):
+    """
+    Parses a list for the 'session list' command.
+    Input:
+        con:tuple = (int, str)
+    """
     new = ""
     for k,v in con.iteritems():
         new += "\n%s\n%s\n%s\n\n" % ("#"*len(k),k,"#"*len(k))
@@ -117,6 +122,13 @@ def parse(con):
     return new
 
 def session(arg):
+    """
+    Main function for handling the session menu.
+    Input:
+        arg:list = the command issued.
+    Return:
+        yeilds the right menu option.
+    """
     s = Session()
     print arg
     if "list" in arg:
@@ -143,6 +155,7 @@ def session(arg):
 
 
 def session_help():
+    """a help menu...doh"""
     print """Sessions Menu Items:
 Caches sessions on searches and makes you able to switch between them!
 Example:
@@ -165,6 +178,7 @@ def edit(arg):
     print "Not implemented yet"
 
 def init(arg):
+    """Issues the basic dir's and empty files."""
     try: os.mkdir("tmp")
     except: pass
     open(os.getcwd()+"/tmp/link", 'ab+').close()
