@@ -80,9 +80,6 @@ class Session(object):
                 print "Did you write a number?"
         else:
             try:
-                open(self.session_dir+output_new, 'wb').close()
-                open(self.session_dir+link_new, 'wb').close()
-                open(self.session_dir+openedfiles_new, 'wb').close()
                 os.rename(self.tmp_dir+output, self.session_dir+output_new)
                 os.rename(self.tmp_dir+link, self.session_dir+link_new)
                 os.rename(self.tmp_dir+openedfiles, self.session_dir+openedfiles_new)

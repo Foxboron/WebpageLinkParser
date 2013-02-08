@@ -25,16 +25,16 @@ def _get_settings():
 
 
 def main_parse(select):
-    sel = ""
+    sel = None
     items = get_menu_items()
     dir_sel = items[select]
     if items[select] in os.listdir("."):
         print "Do you wanna search the dir for html/htm files?"
         sel = raw_input("Y/n >>> ").lower()
-    if sel == "y":
+    if sel == "y" or sel == "":
         for i in dir_walk(items[select]):
             parse_url(i, dir_sel)
-    elif sel == "":
+    elif sel == "n" or sel == None:
         for i in get_url("http://"+items[select]):
             parse_url(i, dir_sel)
 
