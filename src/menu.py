@@ -183,5 +183,6 @@ def init(arg):
     open(os.getcwd()+"/tmp/link", 'ab+').close()
     open(os.getcwd()+"/tmp/openedfiles", 'ab+').close()
     open(os.getcwd()+"/tmp/output.json", "ab").close()
+    open(os.getcwd()+"settings.json", "ab").close()
     try: os.mkdir("session")
     except: pass

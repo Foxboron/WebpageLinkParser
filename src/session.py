@@ -28,12 +28,18 @@ class Session(object):
                         datetime TEXT)
                         """)
         self.conn.commit()
+        try:
+            self.c.execute ("""
+                ALTER TABLE thisisatable
+                ADD settings TEXT""")
+        except Exception: pass
+        else: self.conn.commit()
         self.result = []
 
     def fetch_session(self, num):
         """Searches the database for a variable"""
         try:
-            self.c.execute("""SELECT output, link, openedfiles FROM thisisatable WHERE id=?""", [num,])
+            self.c.execute("""SELECT output, link, openedfiles, settings FROM thisisatable WHERE id=?""", [num,])
         except:
         #Return False if query is not found
             return False
@@ -54,10 +60,11 @@ class Session(object):
 
     def restore_session(self, num):
         if self._empty_files():
-            output, link, openedfiles = self.fetch_session(num)
+            output, link, openedfiles, settings = self.fetch_session(num)
             shutil.copy(self.session_dir+output, self.tmp_dir+"output.json")
             shutil.copy(self.session_dir+link, self.tmp_dir+"link")
             shutil.copy(self.session_dir+openedfiles, self.tmp_dir+"openedfiles")
+            shutil.copy(self.session_dir+settings, os.getcwd()+"/settings.json")
             print "Done"
         else:
             print "Consider clearing or saving your session before restoring another!"
@@ -67,14 +74,20 @@ class Session(object):
         output_new = hashname(name)+".output"
         link_new = hashname(name)+".link"
         openedfiles_new = hashname(name)+".openedfiles"
+        settings_new = hashname(name)+".settings"
         try:
             if id:
-                self.c.execute("""INSERT OR REPLACE INTO thisisatable (id, output, link, openedfiles, datetime) VALUES(?,?,?,?,?)""", 
-                [id, output_new, link_new, openedfiles_new, name])
+                try:
+                    self.c.execute("""INSERT OR REPLACE INTO thisisatable (id, output, link, openedfiles, settings, datetime) VALUES(?,?,?,?,?,?)""", 
+                    [id, output_new, link_new, openedfiles_new, settings_new, name])
+                except Exception, e:
+                    print e
             else:
-                print name
-                self.c.execute("""INSERT OR REPLACE INTO thisisatable (output, link, openedfiles, datetime) VALUES(?,?,?,?)""", 
-                [output_new, link_new, openedfiles_new, name])
+                try:
+                    self.c.execute("""INSERT OR REPLACE INTO thisisatable (output, link, openedfiles, settings, datetime) VALUES(?,?,?,?,?)""", 
+                    [output_new, link_new, openedfiles_new, settings_new, name])
+                except Exception, e:
+                    print e
         except Exception, e:
             if e == "datatype mismatch":
                 print "Did you write a number?"
@@ -83,11 +96,13 @@ class Session(object):
                 os.rename(self.tmp_dir+output, self.session_dir+output_new)
                 os.rename(self.tmp_dir+link, self.session_dir+link_new)
                 os.rename(self.tmp_dir+openedfiles, self.session_dir+openedfiles_new)
+                shutil.copy("settings.json", self.session_dir+settings_new)
             except Exception, e:
-                print e
                 self.conn.rollback()
+                print "We got an error!"
             else:
                 self.conn.commit()
+                print "Saved session!"
 
     def list_session(self):
         try:
