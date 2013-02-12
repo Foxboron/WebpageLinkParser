@@ -64,7 +64,9 @@ class Session(object):
             shutil.copy(self.session_dir+output, self.tmp_dir+"output.json")
             shutil.copy(self.session_dir+link, self.tmp_dir+"link")
             shutil.copy(self.session_dir+openedfiles, self.tmp_dir+"openedfiles")
-            shutil.copy(self.session_dir+settings, os.getcwd()+"/settings.json")
+            if settings:
+                shutil.copy(self.session_dir+settings, os.getcwd()+"/settings.json")
+            else: print "Session don't got a settings.json. The current settings.json file will be used upon save."
             print "Done"
         else:
             print "Consider clearing or saving your session before restoring another!"
