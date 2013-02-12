@@ -6,8 +6,7 @@
             "vektklubb.no",
             "www.vektklubb.no"],
         "tags": [
-            "/sport/ski/hopp",
-            "/sport"]
+            "/sport/*"]
         },
     "www.nettavisen.no": {
         "links": [

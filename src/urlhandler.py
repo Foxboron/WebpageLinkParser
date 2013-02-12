@@ -34,9 +34,20 @@ class UrlHandler(object):
                     if "article" in self.link: 
                         if not a.path.rsplit("/", 1)[0] == "":
                             self.link = a.path.rsplit("/", 1)[0]
-                    if self.link in self.json[self.url.netloc]["tags"]:
+                    if not self._tags(self.link):
                         return False
                 return True
+
+    def _tags(self, tag):
+        list_tags = self.json[self.url.netloc]["tags"]
+        for i in list_tags:
+            if i == tag:
+                return False
+            if "*" in i.split("/"):
+                if i.rsplit("/", 1)[0] in tag:
+                    return False
+        return True
+
 
     def url_write(self, link):
         """Checks the URL if valid or not.
