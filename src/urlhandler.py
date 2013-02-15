@@ -24,6 +24,7 @@ class UrlHandler(object):
         if link.encode('utf-8') in self.db.fetch():
             return False
         a = urlparse(link)
+        print a.netloc
         if a.netloc in self.json[self.url.netloc]["links"]:
             if "http" in link:
                 if a.path == "" or a.path == "/":
