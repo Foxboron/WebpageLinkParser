@@ -77,7 +77,7 @@ class UrlHandler(object):
             self._output_stuff()
             return True
         else:
-            #print "Skipped url: %s" % link
+            print "Skipped url: %s" % link
             return False
 
     def _output_stuff(self):
