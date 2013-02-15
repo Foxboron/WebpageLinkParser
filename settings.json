@@ -41,5 +41,11 @@
             "sigurd.procycling.no",
             "www.sigurd.procycling.no"],
         "tags": []
+    },
+    "www.side3.no": {
+        "links" : [
+        "www.side3.no",
+        "side3.no"],
+        "tags": []
     }
 }

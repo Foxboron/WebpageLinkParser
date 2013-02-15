@@ -34,6 +34,8 @@ class UrlHandler(object):
                     if "article" in self.link: 
                         if not a.path.rsplit("/", 1)[0] == "":
                             self.link = a.path.rsplit("/", 1)[0]
+                        else:
+                            self.link = link
                     if not self._tags(self.link):
                         return False
                 return True
