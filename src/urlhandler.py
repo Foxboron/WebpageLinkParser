@@ -24,7 +24,6 @@ class UrlHandler(object):
         if link.encode('utf-8') in self.db.fetch():
             return False
         a = urlparse(link)
-        print a.netloc
         if a.netloc in self.json[self.url.netloc]["links"]:
             if "http" in link:
                 if a.path == "" or a.path == "/":
@@ -36,7 +35,8 @@ class UrlHandler(object):
                         if not a.path.rsplit("/", 1)[0] == "":
                             self.link = a.path.rsplit("/", 1)[0]
                         else:
-                            self.link = link
+                            l = link.find("article")
+                            self.link = link[:l+len("article")]
                     if not self._tags(self.link):
                         return False
                 return True
@@ -77,7 +77,7 @@ class UrlHandler(object):
             self._output_stuff()
             return True
         else:
-            print "Skipped url: %s" % link
+            #print "Skipped url: %s" % link
             return False
 
     def _output_stuff(self):
