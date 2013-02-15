@@ -91,15 +91,24 @@ def save(arg):
         Input:
             arg:str = Name of the file
     """
-    if len(arg) == 2:
-        name = arg[1]+".txt"
+    format = "txt"
+    if len(arg) == 3:
+        if arg[2] in ["csv", "txt"]:
+            format = arg[2]
+        else:
+            print "%s if not a supported format!" % arg[2]
+    if len(arg) >= 2:
+        name = arg[1]+"."+format
     else:
-        name = strftime("%Y-%m-%d_%H.%M.%S", gmtime())+".txt"
+        name = strftime("%Y-%m-%d_%H.%M.%S.", gmtime())+format
     try: os.mkdir("saved")
     except: pass
     old = open("tmp/output.json", 'rb')
     try:
-        con = parse(json.loads(old.read()))
+        if "txt" in format or format == "":
+            con = parse(json.loads(old.read()))
+        elif format == "csv":
+            con = csvformat(json.loads(old.read()))
         with open("saved/"+name, 'wb') as f:
             f.write(con.encode("utf-8"))
         print "Saved output.json too %s" % name
@@ -107,6 +116,7 @@ def save(arg):
         print e
         print "Nothing to be saved!"
     old.close()
+
 
 def parse(con):
     """
@@ -119,6 +129,14 @@ def parse(con):
         new += "\n%s\n%s\n%s\n\n" % ("#"*len(k),k,"#"*len(k))
         for j,m in v.iteritems():
             new += "%s: %s\n" % (j,m)
+    return new
+
+def csvformat(con):
+    new = ""
+    for k,v in con.iteritems():
+        new += "%s;\n" % k
+        for j,m in v.iteritems():
+            new += "%s;%s\n" % (j,m)
     return new
 
 def session(arg):
