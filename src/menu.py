@@ -92,13 +92,18 @@ def save(arg):
             arg:str = Name of the file
     """
     format = "txt"
+    name = ""
     if len(arg) == 3:
         if arg[2] in ["csv", "txt"]:
             format = arg[2]
         else:
             print "%s if not a supported format!" % arg[2]
     if len(arg) >= 2:
-        name = arg[1]+"."+format
+        if arg[1] in ["csv", "txt"]:
+            format = arg[1]
+            name = strftime("%Y-%m-%d_%H.%M.%S.", gmtime())+format
+        else:
+            name = arg[1]+"."+format
     else:
         name = strftime("%Y-%m-%d_%H.%M.%S.", gmtime())+format
     try: os.mkdir("saved")

@@ -9,7 +9,7 @@ def main():
     "exit": exit,
     "help": help,
     "save": save,
-    "clear": clear,
+    "clear": clear,    
     "menu": menu,
     "edit": edit,
     "session": session} 
